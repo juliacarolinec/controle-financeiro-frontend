@@ -1,0 +1,49 @@
+<h2>Minhas transações</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Descrição</th>
+      <th>Valor</th>
+      <th>Tipo</th>
+      <th>Categoria</th>
+      <th>Data</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (transacao of transacoes(); track transacao.id) {
+      <tr>
+        <td>{{ transacao.descricao }}</td>
+        <td>R$ {{ transacao.valor }}</td>
+        <td>{{ transacao.tipo }}</td>
+        <td>{{ transacao.categoria.nome }}</td>
+        <td>{{ transacao.data }}</td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="5">Nenhuma transação encontrada.</td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<div class="paginacao">
+
+  <button
+    (click)="paginaAnterior()"
+    [disabled]="paginaAtual() === 0">
+    Anterior
+  </button>
+
+  <span>
+    Página {{ paginaAtual() + 1 }} de {{ totalPaginas() }}
+  </span>
+
+  <button
+    (click)="proximaPagina()"
+    [disabled]="paginaAtual() >= totalPaginas() - 1">
+    Próxima
+  </button>
+
+</div>

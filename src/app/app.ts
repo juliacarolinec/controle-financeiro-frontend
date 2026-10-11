@@ -1,12 +1,13 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { TransacaoList } from './components/transacao-list/transacao-list';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [TransacaoList],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('controle-financeiro-frontend');
+  titulo = 'Controle Financeiro';
+  saldo = 2500;
 }
