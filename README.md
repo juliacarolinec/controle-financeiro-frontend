@@ -1,59 +1,62 @@
-# ControleFinanceiroFrontend
+# Controle Financeiro | Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.2.
+Interface web desenvolvida em **Angular e TypeScript** para uma aplicação de controle financeiro pessoal, integrada a uma API REST construída com Java e Spring Boot.
 
-## Development server
+O projeto tem como objetivo permitir o gerenciamento de receitas e despesas, oferecendo uma interface para consultar e organizar transações financeiras.
 
-To start a local development server, run:
+## Tecnologias utilizadas
 
-```bash
-ng serve
-```
+- Angular
+- TypeScript
+- HTML5
+- CSS3
+- Angular HttpClient
+- Angular Signals
+- Git e GitHub
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Funcionalidades implementadas
 
-## Code scaffolding
+- Listagem de transações financeiras.
+- Integração com a API REST utilizando requisições HTTP.
+- Paginação de transações com navegação entre páginas.
+- Exibição de descrição, valor, tipo, categoria e data das transações.
+- Atualização reativa da interface utilizando Angular Signals.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Como executar o projeto
 
-```bash
-ng generate component component-name
-```
+**Pré-requisitos:** Node.js, npm e Angular CLI.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Clone o repositório e acesse a pasta:
 
 ```bash
-ng build
+git clone https://github.com/SEU-USUARIO/controle-financeiro-frontend.git
+cd controle-financeiro-frontend
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Instale as dependências:
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Inicie o servidor de desenvolvimento:
 
 ```bash
-ng e2e
+ng serve -o
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+A aplicação estará disponível em `http://localhost:4200`.
 
-## Additional Resources
+**Observação:** para carregar as transações, é necessário que a API backend esteja em execução em `http://localhost:8080`, com o banco de dados configurado.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Backend
+
+O frontend consome uma API REST desenvolvida com Java, Spring Boot, Spring Data JPA e PostgreSQL.
+
+O backend é responsável pelas regras de negócio, persistência dos dados e paginação das transações.
+
+## Status do projeto
+
+🚧 Em desenvolvimento.
+
+Funcionalidades de cadastro, edição e exclusão de transações, além da integração do resumo financeiro, estão previstas para etapas futuras.
