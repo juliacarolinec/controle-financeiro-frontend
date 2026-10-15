@@ -7,6 +7,9 @@
     <!-- saldo ficticio para teste -->
   </div>
 
-  <button>Nova Transação</button>
+  <button (click)="alterarFormulario()">Nova Transação</button>
+  @if(formularioVisivel()){
+    <app-transacao-form (transacaoAdicionada)="atualizarLista()"></app-transacao-form>
+  }
   <app-transacao-list></app-transacao-list>
 </div>

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 
 import { Transacao } from '../models/transacao';
+import { TransacaoRequest } from '../models/transacao-request';
 import { Pagina } from '../models/pagina';
 
 @Service()
@@ -16,6 +17,12 @@ export class TransacaoService {
         size: size
       }
     });
+    }
+
+    salvarTransacao(transacao: TransacaoRequest){
+      return this.http.post<Transacao>(
+        this.apiUrl, transacao
+      );
     }
 }
 

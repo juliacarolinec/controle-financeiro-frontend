@@ -1,0 +1,61 @@
+.form-transacao {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.campo label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+.campo input,
+.campo select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+.campo input:focus,
+.campo select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+.btnSalvar {
+  width: 100%;
+  padding: 12px;
+  background-color:#f59b35;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btnSalvar:hover {
+  background-color: #f59b35;
+  transition: background-color 0.2s ease;
+}
+.mensagem {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+.mensagem.erro {
+  color: #9f0909;
+}
+.mensagem.sucesso {
+  color: #048734;
+}
