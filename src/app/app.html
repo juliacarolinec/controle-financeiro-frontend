@@ -3,8 +3,7 @@
   <h2>Resumo Financeiro</h2>
   <div class="card">
     <p>Saldo atual</p>
-    <h3>R${{saldo}}</h3>
-    <!-- saldo ficticio para teste -->
+    <h3>{{saldo() | currency: 'BRL':'symbol':'1.2-2':'pt-BR'}}</h3>
   </div>
 
   <button (click)="alterarFormulario()">Nova Transação</button>

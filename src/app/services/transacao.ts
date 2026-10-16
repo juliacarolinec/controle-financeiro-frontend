@@ -4,6 +4,7 @@ import { inject, Service } from '@angular/core';
 import { Transacao } from '../models/transacao';
 import { TransacaoRequest } from '../models/transacao-request';
 import { Pagina } from '../models/pagina';
+import { SaldoResponse } from '../models/saldo-response';
 
 @Service()
 export class TransacaoService {
@@ -23,6 +24,10 @@ export class TransacaoService {
       return this.http.post<Transacao>(
         this.apiUrl, transacao
       );
+    }
+
+    calcularSaldo(){
+      return this.http.get<SaldoResponse>(`${this.apiUrl}/saldo`);
     }
 }
 
