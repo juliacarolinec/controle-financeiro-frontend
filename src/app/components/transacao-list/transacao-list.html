@@ -8,6 +8,7 @@
       <th>Tipo</th>
       <th>Categoria</th>
       <th>Data</th>
+      <th>Ações</th>
     </tr>
   </thead>
 
@@ -19,6 +20,9 @@
         <td>{{ transacao.tipo }}</td>
         <td>{{ transacao.categoria.nome }}</td>
         <td>{{ transacao.data }}</td>
+        <td><button class="btnExcluir" type="button" (click)="excluirTransacao(transacao.id)">
+          Excluir
+        </button></td>
       </tr>
     } @empty {
       <tr>

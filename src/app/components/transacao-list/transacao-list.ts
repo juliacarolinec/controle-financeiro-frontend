@@ -1,6 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, output, signal } from '@angular/core';
 import { Transacao } from '../../models/transacao';
 import { TransacaoService } from '../../services/transacao';
+import { Output } from '@angular/core';
 
 @Component({
   selector: 'app-transacao-list',
@@ -13,6 +14,8 @@ export class TransacaoList implements OnInit {
   private service = inject(TransacaoService);
 
   transacoes = signal<Transacao[]>([]);
+
+  transacaoExcluida = output<void>();
 
   paginaAtual = signal(0);
   totalPaginas = signal(0);
@@ -39,6 +42,26 @@ export class TransacaoList implements OnInit {
       error: (erro) => {
         console.error('Erro ao buscar transações:', erro);
         this.carregando.set(false);
+      }
+    });
+  }
+
+  excluirTransacao(id: number) {
+    const confirmado = window.confirm(
+      'Tem certeza de que deseja excluir esta transação?'
+    );
+
+    if (!confirmado) {
+      return;
+    }
+
+    this.service.excluirTransacao(id).subscribe({
+      next: () => {
+        this.carregarTransacoes();
+        this.transacaoExcluida.emit();
+      },
+      error: (erro) => {
+        console.error('Erro ao excluir transação: ', erro);
       }
     });
   }

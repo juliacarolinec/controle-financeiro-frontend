@@ -10,5 +10,5 @@
   @if(formularioVisivel()){
     <app-transacao-form (transacaoAdicionada)="atualizarLista()"></app-transacao-form>
   }
-  <app-transacao-list></app-transacao-list>
+  <app-transacao-list (transacaoExcluida)="carregarSaldo()"></app-transacao-list>
 </div>

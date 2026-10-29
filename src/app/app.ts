@@ -27,6 +27,7 @@ export class App {
 
   atualizarLista() {
   this.listaTransacoes()?.carregarTransacoes();
+  this.carregarSaldo();
   this.formularioVisivel.set(false);
   }
 

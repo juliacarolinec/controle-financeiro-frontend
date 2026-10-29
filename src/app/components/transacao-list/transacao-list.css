@@ -35,3 +35,11 @@ th {
   background-color: #cccccc;
   cursor: not-allowed;
 }
+
+.btnExcluir{
+  background-color:#d70505;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}

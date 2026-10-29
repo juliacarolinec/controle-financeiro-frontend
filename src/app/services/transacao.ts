@@ -29,5 +29,9 @@ export class TransacaoService {
     calcularSaldo(){
       return this.http.get<SaldoResponse>(`${this.apiUrl}/saldo`);
     }
+
+    excluirTransacao(id: number){
+      return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    }
 }
 
