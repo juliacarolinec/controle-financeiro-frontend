@@ -54,9 +54,12 @@ export class TransacaoList implements OnInit {
     if (!confirmado) {
       return;
     }
-
+    
     this.service.excluirTransacao(id).subscribe({
       next: () => {
+        if (this.transacoes().length === 1 && this.paginaAtual() > 0) {
+          this.paginaAtual.set(this.paginaAtual() - 1);
+        }
         this.carregarTransacoes();
         this.transacaoExcluida.emit();
       },

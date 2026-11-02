@@ -6,11 +6,11 @@ import { Pagina } from '../models/pagina';
 @Service()
 export class CategoriaService {
     private http = inject(HttpClient);
-    private apiUrl =  'http://localhost:8080/categorias';
+    private apiUrl = 'http://localhost:8080/categorias';
 
-    listarCategorias(page: number, size: number){
+    listarCategorias(page: number, size: number) {
         return this.http.get<Pagina<Categoria>>(
-            this.apiUrl,{params: {page, size}}
+            this.apiUrl, { params: { page, size } }
         );
     }
 }

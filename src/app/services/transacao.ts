@@ -8,30 +8,30 @@ import { SaldoResponse } from '../models/saldo-response';
 
 @Service()
 export class TransacaoService {
-    private http = inject(HttpClient);
-    private apiUrl = 'http://localhost:8080/transacoes';
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:8080/transacoes';
 
-    listarTransacoes(page: number, size: number) {
-        return this.http.get<Pagina<Transacao>>(this.apiUrl, {
+  listarTransacoes(page: number, size: number) {
+    return this.http.get<Pagina<Transacao>>(this.apiUrl, {
       params: {
         page: page,
         size: size
       }
     });
-    }
+  }
 
-    salvarTransacao(transacao: TransacaoRequest){
-      return this.http.post<Transacao>(
-        this.apiUrl, transacao
-      );
-    }
+  salvarTransacao(transacao: TransacaoRequest) {
+    return this.http.post<Transacao>(
+      this.apiUrl, transacao
+    );
+  }
 
-    calcularSaldo(){
-      return this.http.get<SaldoResponse>(`${this.apiUrl}/saldo`);
-    }
+  calcularSaldo() {
+    return this.http.get<SaldoResponse>(`${this.apiUrl}/saldo`);
+  }
 
-    excluirTransacao(id: number){
-      return this.http.delete<void>(`${this.apiUrl}/${id}`);
-    }
+  excluirTransacao(id: number) {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
 

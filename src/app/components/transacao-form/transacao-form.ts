@@ -11,11 +11,11 @@ import { Categoria } from '../../models/categoria';
   styleUrl: './transacao-form.css',
   templateUrl: './transacao-form.html',
 })
-export class TransacaoForm implements OnInit{
+export class TransacaoForm implements OnInit {
   private service = inject(TransacaoService);
   private categoriaService = inject(CategoriaService);
-  transacaoAdicionada = output<void>();
 
+  transacaoAdicionada = output<void>();
   categorias = signal<Categoria[]>([]);
 
   descricao = '';
@@ -25,17 +25,16 @@ export class TransacaoForm implements OnInit{
   categoriaId: number | null = null;
 
   mensagem = signal('');
-  tipoMensagem = signal<'sucesso'|'erro'|null>(null);
+  tipoMensagem = signal<'sucesso' | 'erro' | null>(null);
 
-
-  salvar(){
-    if ( !this.descricao.trim() || this.valor === null || !this.data || this.categoriaId === null) {
+  salvar() {
+    if (!this.descricao.trim() || this.valor === null || !this.data || this.categoriaId === null) {
       this.mensagem.set('Preencha todos os campos.');
       this.tipoMensagem.set('erro');
       return;
     }
-    
-     const transacao: TransacaoRequest = {
+
+    const transacao: TransacaoRequest = {
       descricao: this.descricao,
       valor: this.valor,
       tipo: this.tipo,
@@ -43,11 +42,13 @@ export class TransacaoForm implements OnInit{
       categoriaId: this.categoriaId
     };
 
-     this.service.salvarTransacao(transacao).subscribe({
+    this.service.salvarTransacao(transacao).subscribe({
       next: (resposta) => {
         console.log('Transação cadastrada:', resposta);
         this.mensagem.set('Transação cadastrada com sucesso!');
         this.tipoMensagem.set('sucesso');
+        this.limparFormulario();
+        this.transacaoAdicionada.emit();
       },
       error: (erro) => {
         console.error('Erro ao cadastrar:', erro);
@@ -57,19 +58,27 @@ export class TransacaoForm implements OnInit{
     });
   }
 
-  ngOnInit() {
-  this.carregarCategorias();
-}
+  limparFormulario() {
+    this.descricao = '';
+    this.valor = null;
+    this.tipo = 'DESPESA';
+    this.data = '';
+    this.categoriaId = null;
+  }
 
-carregarCategorias() {
-  this.categoriaService.listarCategorias(0, 100).subscribe({
-    next: (pagina) => {
-       console.log('Categorias recebidas:', pagina);
-      this.categorias.set(pagina.content);
-    },
-    error: (erro) => {
-      console.error('Erro ao buscar categorias:', erro);
-    }
-  });
-}
+  ngOnInit() {
+    this.carregarCategorias();
+  }
+
+  carregarCategorias() {
+    this.categoriaService.listarCategorias(0, 100).subscribe({
+      next: (pagina) => {
+        console.log('Categorias recebidas:', pagina);
+        this.categorias.set(pagina.content);
+      },
+      error: (erro) => {
+        console.error('Erro ao buscar categorias:', erro);
+      }
+    });
+  }
 }
