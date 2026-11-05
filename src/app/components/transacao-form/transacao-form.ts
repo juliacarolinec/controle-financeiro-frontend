@@ -1,9 +1,10 @@
-import { Component, inject, signal, OnInit, output } from '@angular/core';
+import { Component, inject, signal, OnInit, output, input, effect } from '@angular/core';
 import { TransacaoRequest } from '../../models/transacao-request';
 import { TransacaoService } from '../../services/transacao';
 import { FormsModule } from '@angular/forms';
 import { CategoriaService } from '../../services/categoria';
 import { Categoria } from '../../models/categoria';
+import { Transacao } from '../../models/transacao';
 
 @Component({
   imports: [FormsModule],
@@ -26,6 +27,21 @@ export class TransacaoForm implements OnInit {
 
   mensagem = signal('');
   tipoMensagem = signal<'sucesso' | 'erro' | null>(null);
+  transacaoParaEditar = input<Transacao | null>(null);
+
+  constructor() {
+    effect(() => {
+      const transacao = this.transacaoParaEditar();
+
+      if (transacao) {
+        this.descricao = transacao.descricao;
+        this.valor = transacao.valor;
+        this.tipo = transacao.tipo;
+        this.data = transacao.data;
+        this.categoriaId = transacao.categoria.id;
+      }
+    });
+  }
 
   salvar() {
     if (!this.descricao.trim() || this.valor === null || !this.data || this.categoriaId === null) {
@@ -42,21 +58,41 @@ export class TransacaoForm implements OnInit {
       categoriaId: this.categoriaId
     };
 
-    this.service.salvarTransacao(transacao).subscribe({
-      next: (resposta) => {
-        console.log('Transação cadastrada:', resposta);
-        this.mensagem.set('Transação cadastrada com sucesso!');
-        this.tipoMensagem.set('sucesso');
-        this.limparFormulario();
-        this.transacaoAdicionada.emit();
-      },
-      error: (erro) => {
-        console.error('Erro ao cadastrar:', erro);
-        this.mensagem.set('Não foi possível cadastrar a transação.');
-        this.tipoMensagem.set('erro');
-      }
-    });
+    const transacaoEmEdicao = this.transacaoParaEditar();
+
+    if (transacaoEmEdicao) {
+      this.service.atualizarTransacao(transacaoEmEdicao.id, transacao).subscribe({
+        next: (resposta) => {
+          console.log('Transação atualizada', resposta);
+          this.mensagem.set('Transação atualizada com sucesso!');
+          this.tipoMensagem.set('sucesso');
+          this.transacaoAdicionada.emit();
+        },
+        error: (erro) => {
+          console.error('Erro ao atualizar:', erro);
+          this.mensagem.set('Não foi possível atualizar a transação.');
+          this.tipoMensagem.set('erro');
+        }
+      });
+    } else {
+
+      this.service.salvarTransacao(transacao).subscribe({
+        next: (resposta) => {
+          console.log('Transação cadastrada:', resposta);
+          this.mensagem.set('Transação cadastrada com sucesso!');
+          this.tipoMensagem.set('sucesso');
+          this.limparFormulario();
+          this.transacaoAdicionada.emit();
+        },
+        error: (erro) => {
+          console.error('Erro ao cadastrar:', erro);
+          this.mensagem.set('Não foi possível cadastrar a transação.');
+          this.tipoMensagem.set('erro');
+        }
+      });
+    }
   }
+
 
   limparFormulario() {
     this.descricao = '';
@@ -81,4 +117,6 @@ export class TransacaoForm implements OnInit {
       }
     });
   }
+
+
 }

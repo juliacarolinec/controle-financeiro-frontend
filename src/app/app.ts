@@ -5,6 +5,7 @@ import { registerLocaleData } from '@angular/common';
 import { TransacaoList } from './components/transacao-list/transacao-list';
 import { TransacaoForm } from './components/transacao-form/transacao-form';
 import { TransacaoService } from './services/transacao';
+import { Transacao } from './models/transacao';
 
 registerLocaleData(localePt);
 
@@ -29,11 +30,13 @@ export class App {
   this.listaTransacoes()?.carregarTransacoes();
   this.carregarSaldo();
   this.formularioVisivel.set(false);
+  this.transacaoEmEdicao.set(null);
   }
 
   formularioVisivel = signal(false);
 
   alterarFormulario(){
+    this.transacaoEmEdicao.set(null);
     this.formularioVisivel.update(atual => !atual);
   }
 
@@ -46,5 +49,12 @@ export class App {
         console.error('Erro ao carregar saldo:', erro);
       }
     });
+  }
+
+  transacaoEmEdicao = signal<Transacao | null>(null);
+
+  iniciarEdicao(transacao: Transacao){
+    this.transacaoEmEdicao.set(transacao);
+    this.formularioVisivel.set(true);
   }
 }

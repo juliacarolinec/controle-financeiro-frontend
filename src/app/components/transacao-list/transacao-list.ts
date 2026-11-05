@@ -17,6 +17,8 @@ export class TransacaoList implements OnInit {
 
   transacaoExcluida = output<void>();
 
+  transacaoSelecionada = output<Transacao>();
+
   paginaAtual = signal(0);
   totalPaginas = signal(0);
   carregando = signal(false);
@@ -67,6 +69,10 @@ export class TransacaoList implements OnInit {
         console.error('Erro ao excluir transação: ', erro);
       }
     });
+  }
+
+  editarTransacao(transacao: Transacao){
+    this.transacaoSelecionada.emit(transacao);
   }
 
   proximaPagina() {

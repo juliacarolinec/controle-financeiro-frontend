@@ -33,5 +33,9 @@ export class TransacaoService {
   excluirTransacao(id: number) {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  atualizarTransacao(id: number, transacao: TransacaoRequest){
+    return this.http.put<void>(`${this.apiUrl}/${id}`, transacao);
+  }
 }
 

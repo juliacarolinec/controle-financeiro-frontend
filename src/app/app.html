@@ -8,7 +8,8 @@
 
   <button (click)="alterarFormulario()">Nova Transação</button>
   @if(formularioVisivel()){
-    <app-transacao-form (transacaoAdicionada)="atualizarLista()"></app-transacao-form>
+    <app-transacao-form [transacaoParaEditar]="transacaoEmEdicao()" (transacaoAdicionada)="atualizarLista()"></app-transacao-form>
   }
-  <app-transacao-list (transacaoExcluida)="carregarSaldo()"></app-transacao-list>
+  <app-transacao-list (transacaoExcluida)="carregarSaldo()"
+  (transacaoSelecionada)="iniciarEdicao($event)"></app-transacao-list>
 </div>
