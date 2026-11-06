@@ -2,10 +2,12 @@ import { Component, inject, OnInit, output, signal } from '@angular/core';
 import { Transacao } from '../../models/transacao';
 import { TransacaoService } from '../../services/transacao';
 import { Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-transacao-list',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './transacao-list.html',
   styleUrl: './transacao-list.css'
 })
@@ -25,6 +27,10 @@ export class TransacaoList implements OnInit {
 
   tamanhoPagina = 5;
 
+  filtroTipo = signal<'RECEITA' | 'DESPESA' | null>(null);
+  filtroDescricao = signal('');
+  filtroData = signal('');
+
   ngOnInit() {
     this.carregarTransacoes();
   }
@@ -32,10 +38,30 @@ export class TransacaoList implements OnInit {
   carregarTransacoes() {
     this.carregando.set(true);
 
-    this.service.listarTransacoes(
-      this.paginaAtual(),
-      this.tamanhoPagina
-    ).subscribe({
+    if (this.filtroData() !== '') {
+      this.service.pesquisarPorData(this.filtroData()).subscribe({
+        next: (transacoes) => {
+          this.transacoes.set(transacoes ?? []);
+          this.totalPaginas.set(1);
+          this.paginaAtual.set(0);
+          this.carregando.set(false);
+        },
+        error: (erro) => {
+          console.error('Erro ao pesquisar por data:', erro);
+          this.carregando.set(false);
+        }
+      });
+      return;
+    }
+
+    let requisicao;
+
+    if (this.filtroTipo() !== null || this.filtroDescricao().trim() !== '') {
+      requisicao = this.service.pesquisarTransacoes(this.filtroTipo(), this.filtroDescricao(), this.paginaAtual(), this.tamanhoPagina);
+    } else {
+      requisicao = this.service.listarTransacoes(this.paginaAtual(), this.tamanhoPagina);
+    }
+    requisicao.subscribe({
       next: (pagina) => {
         this.transacoes.set(pagina?.content ?? []);
         this.totalPaginas.set(pagina?.totalPages ?? 0);
@@ -56,7 +82,7 @@ export class TransacaoList implements OnInit {
     if (!confirmado) {
       return;
     }
-    
+
     this.service.excluirTransacao(id).subscribe({
       next: () => {
         if (this.transacoes().length === 1 && this.paginaAtual() > 0) {
@@ -71,8 +97,21 @@ export class TransacaoList implements OnInit {
     });
   }
 
-  editarTransacao(transacao: Transacao){
+  editarTransacao(transacao: Transacao) {
     this.transacaoSelecionada.emit(transacao);
+  }
+
+  aplicarFiltros() {
+    this.paginaAtual.set(0);
+    this.carregarTransacoes();
+  }
+
+  limparFiltros() {
+    this.filtroDescricao.set('');
+    this.filtroTipo.set(null);
+    this.filtroData.set('');
+    this.paginaAtual.set(0);
+    this.carregarTransacoes();
   }
 
   proximaPagina() {

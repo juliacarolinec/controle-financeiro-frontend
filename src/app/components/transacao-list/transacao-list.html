@@ -1,5 +1,26 @@
 <h2>Minhas transações</h2>
 
+<div class="filtros">
+
+
+  <label for="descricao">Pesquisar transação:</label>
+
+  <label for="data">Data:</label>
+  <input id="data" type="date" [ngModel]="filtroData()" (ngModelChange)="filtroData.set($event)">
+
+  <label for="tipo">Tipo:</label>
+  <select id="tipo" [ngModel]="filtroTipo()" (ngModelChange)="filtroTipo.set($event)">
+    <option [ngValue]="null">Todos</option>
+    <option value="RECEITA">Receitas</option>
+    <option value="DESPESA">Despesas</option>
+  </select>
+
+  <input id="descricao" type="text" placeholder="Digite uma descrição" [ngModel]="filtroDescricao()"
+    (ngModelChange)="filtroDescricao.set($event)">
+
+  <button (click)="aplicarFiltros()">Pesquisar</button>
+  <button (click)="limparFiltros()">Limpar filtros</button>
+</div>
 <table>
   <thead>
     <tr>

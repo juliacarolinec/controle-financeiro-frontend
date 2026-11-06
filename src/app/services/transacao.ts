@@ -34,8 +34,25 @@ export class TransacaoService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  atualizarTransacao(id: number, transacao: TransacaoRequest){
+  atualizarTransacao(id: number, transacao: TransacaoRequest) {
     return this.http.put<void>(`${this.apiUrl}/${id}`, transacao);
+  }
+
+  pesquisarTransacoes(tipo: 'RECEITA' | 'DESPESA' | null, descricao: string,
+    page: number, size: number) {
+    const params: Record<string, string | number> = {
+      page: page, size: size
+    };
+    if (tipo != null) {
+      params[`tipo`] = tipo;
+    }
+    if (descricao.trim() !== '') {
+      params[`descricao`] = descricao;
+    }
+    return this.http.get<Pagina<Transacao>>(`${this.apiUrl}/pesquisa`, {params: params});
+  }
+  pesquisarPorData(data: string) {
+  return this.http.get<Transacao[]>(`${this.apiUrl}/data`, {params: {data: data}});
   }
 }
 
