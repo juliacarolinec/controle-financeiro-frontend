@@ -1,15 +1,40 @@
 <div class="container">
-  <h1>{{titulo}}</h1>
-  <h2>Resumo Financeiro</h2>
-  <div class="card">
-    <p>Saldo atual</p>
-    <h3>{{saldo() | currency: 'BRL':'symbol':'1.2-2':'pt-BR'}}</h3>
+
+
+  <div class="cabecalho">
+    <img src="/logo.png" alt="Logo do Controle Financeiro" class="logo" />
+
+    <h1>{{ titulo }}</h1>
   </div>
 
-  <button (click)="alterarFormulario()">Nova Transação</button>
-  @if(formularioVisivel()){
-    <app-transacao-form [transacaoParaEditar]="transacaoEmEdicao()" (transacaoAdicionada)="atualizarLista()"></app-transacao-form>
+
+  <div class="resumo-cabecalho">
+    <h2>Resumo Financeiro</h2>
+  </div>
+
+  <div class="resumo-linha">
+
+    <div class="card">
+      <div class="saldo-info">
+        <span>Saldo atual</span>
+        <h3>
+          {{ saldo() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        </h3>
+      </div>
+    </div>
+
+    <button class="btnNovaTransacao" type="button" (click)="alterarFormulario()">
+      + Nova Transação
+    </button>
+
+  </div>
+
+  @if (formularioVisivel()) {
+  <app-transacao-form [transacaoParaEditar]="transacaoEmEdicao()" (transacaoAdicionada)="atualizarLista()">
+  </app-transacao-form>
   }
-  <app-transacao-list (transacaoExcluida)="carregarSaldo()"
-  (transacaoSelecionada)="iniciarEdicao($event)"></app-transacao-list>
+
+  <app-transacao-list (transacaoExcluida)="carregarSaldo()" (transacaoSelecionada)="iniciarEdicao($event)">
+  </app-transacao-list>
+
 </div>

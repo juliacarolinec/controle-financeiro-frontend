@@ -4,12 +4,12 @@ import { TransacaoService } from '../../services/transacao';
 import { Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SaldoResponse } from '../../models/saldo-response';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe} from '@angular/common';
 
 
 @Component({
   selector: 'app-transacao-list',
-  imports: [FormsModule, CurrencyPipe],
+  imports: [FormsModule, CurrencyPipe, DatePipe],
   templateUrl: './transacao-list.html',
   styleUrl: './transacao-list.css'
 })

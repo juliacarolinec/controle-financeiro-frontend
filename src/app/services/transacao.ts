@@ -15,7 +15,8 @@ export class TransacaoService {
     return this.http.get<Pagina<Transacao>>(this.apiUrl, {
       params: {
         page: page,
-        size: size
+        size: size,
+        sort: 'data,desc'
       }
     });
   }
@@ -41,7 +42,7 @@ export class TransacaoService {
   pesquisarTransacoes(tipo: 'RECEITA' | 'DESPESA' | null, descricao: string,
     page: number, size: number) {
     const params: Record<string, string | number> = {
-      page: page, size: size
+      page: page, size: size, sort: 'data,desc'
     };
     if (tipo != null) {
       params[`tipo`] = tipo;
