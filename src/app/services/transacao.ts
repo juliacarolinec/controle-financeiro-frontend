@@ -54,5 +54,11 @@ export class TransacaoService {
   pesquisarPorData(data: string) {
   return this.http.get<Transacao[]>(`${this.apiUrl}/data`, {params: {data: data}});
   }
+  pesquisarPorPeriodo(inicio: string, fim: string){
+    return this.http.get<Transacao[]>(`${this.apiUrl}/periodo`, {params: {inicio: inicio, fim: fim}});
+  }
+  calcularSaldoPorPeriodo(inicio: string, fim: string) {
+        return this.http.get<SaldoResponse>(`${this.apiUrl}/saldo/periodo`, {params: {inicio: inicio, fim: fim}});
+  }
 }
 

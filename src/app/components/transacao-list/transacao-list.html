@@ -1,12 +1,11 @@
 <h2>Minhas transações</h2>
 
+
 <div class="filtros">
 
-
   <label for="descricao">Pesquisar transação:</label>
-
-  <label for="data">Data:</label>
-  <input id="data" type="date" [ngModel]="filtroData()" (ngModelChange)="filtroData.set($event)">
+  <input id="descricao" type="text" placeholder="Digite uma descrição" [ngModel]="filtroDescricao()"
+    (ngModelChange)="filtroDescricao.set($event)">
 
   <label for="tipo">Tipo:</label>
   <select id="tipo" [ngModel]="filtroTipo()" (ngModelChange)="filtroTipo.set($event)">
@@ -15,12 +14,106 @@
     <option value="DESPESA">Despesas</option>
   </select>
 
-  <input id="descricao" type="text" placeholder="Digite uma descrição" [ngModel]="filtroDescricao()"
-    (ngModelChange)="filtroDescricao.set($event)">
+
+  <div class="selecao-data">
+    <p class="titulo-data">Pesquisar por data</p>
+
+    <div class="opcoes-data">
+
+      <label class="opcao-data" [class.selecionada]="modoData() === 'especifica'">
+        <input type="radio" name="modoData" value="especifica" [ngModel]="modoData()"
+          (ngModelChange)="modoData.set($event)">
+
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+          stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="16" rx="2" />
+          <path d="M16 3v4M8 3v4M3 10h18" />
+          <path d="m9 16 2 2 4-4" />
+        </svg>
+
+        <strong>Data específica</strong>
+        <span>Pesquisar um único dia</span>
+      </label>
+
+      <label class="opcao-data" [class.selecionada]="modoData() === 'periodo'">
+        <input type="radio" name="modoData" value="periodo" [ngModel]="modoData()"
+          (ngModelChange)="modoData.set($event)">
+
+        <div class="icones-periodo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="16" rx="2" />
+            <path d="M16 3v4M8 3v4M3 10h18" />
+          </svg>
+
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="16" rx="2" />
+            <path d="M16 3v4M8 3v4M3 10h18" />
+          </svg>
+        </div>
+
+        <strong>Por período</strong>
+        <span>Pesquisar entre duas datas</span>
+      </label>
+
+    </div>
+
+    <button type="button" class="limpar-data" (click)="modoData.set('nenhum')">
+      Limpar seleção de data
+    </button>
+  </div>
+
+
+  @if (modoData() === 'especifica') {
+  <label for="data">Data:</label>
+  <input id="data" type="date" [ngModel]="filtroData()" (ngModelChange)="filtroData.set($event)">
+  }
+
+  @if (modoData() === 'periodo') {
+  <label for="inicio">Data inicial:</label>
+  <input id="inicio" type="date" [ngModel]="filtroInicio()" (ngModelChange)="filtroInicio.set($event)">
+
+  <label for="fim">Data final:</label>
+  <input id="fim" type="date" [ngModel]="filtroFim()" (ngModelChange)="filtroFim.set($event)">
+  }
 
   <button (click)="aplicarFiltros()">Pesquisar</button>
   <button (click)="limparFiltros()">Limpar filtros</button>
+
 </div>
+
+
+@if (saldoPeriodo(); as resumo) {
+<div class="resumo-periodo">
+  <h3>Resumo do período</h3>
+
+  <div class="resumo-valores">
+    <div class="resumo-item">
+      <p>Receitas</p>
+      <strong class="receitas">
+        {{ resumo.receitas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </strong>
+    </div>
+
+    <div class="resumo-item">
+      <p>Despesas</p>
+      <strong class="despesas">
+        {{ resumo.despesas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </strong>
+    </div>
+
+    <div class="resumo-item">
+      <p>Saldo do período</p>
+      <strong class="saldo">
+        {{ resumo.saldo | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </strong>
+    </div>
+  </div>
+</div>
+}
+
+
 <table>
   <thead>
     <tr>
